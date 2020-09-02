@@ -1,5 +1,7 @@
 # mutpoint
 
+![Node.js CI](https://github.com/nonnontrivial/mutpoint/workflows/Node.js%20CI/badge.svg)
+
 > components for visualizing mutating point data
 
 > **Note:** Project is **unstable**
