@@ -3,7 +3,7 @@
  */
 import * as React from "react";
 import * as d3 from "d3";
-import { SizeContext } from "../util/size";
+import { SizeContext, defaultSize } from "../util/size";
 
 enum Curve {
   LINEAR = "curveLinear",
@@ -30,19 +30,11 @@ interface Props {
 }
 
 /**
- * isDefined determines if a point has a valid x and y
- * @param {Point} point Point passed from line call
- */
-function isDefined(point: [number, number]) {
-  return !isNaN(point[0]) && !isNaN(point[1]);
-}
-
-/**
  * Line renders a line
  * @param {Props} props Props passed to the component
 */
 export const Line = (props: Props): React.ReactElement => {
-  const { height, width, margin } = React.useContext(SizeContext) ?? { height: 300, width: 500, margin: { left: 0, right: 0, top: 0, bottom: 0 } };
+  const { height, width, margin } = React.useContext(SizeContext) ?? defaultSize;
   // formattedPoints is a mapping of original data points into the two-tuple
   // format used in d3 APIs
   const formattedPoints = React.useMemo<Array<[number, number]>>(() => {
@@ -80,7 +72,7 @@ export const Line = (props: Props): React.ReactElement => {
       d={curve}
       fill={props.fill ?? undefined}
       stroke={props.stroke ?? "#000"}
-      // transform={`translate(${props.margin?.left ?? 0},${props.margin?.top ?? 0})`}
+      transform={`translate(${margin?.left ?? 0},${margin?.top ?? 0})`}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
       onClick={onClick}
