@@ -1,18 +1,18 @@
 /**
- * @fileoverview Defines Line component and Point interface
+ * @fileoverview Defines Line component and Point type
  */
 import * as React from "react";
 import * as d3 from "d3";
 import { SizeContext, defaultSize } from "../util/size";
 
-enum Curve {
+export enum Curve {
   LINEAR = "curveLinear",
   BASIS = "curveBasis",
   NATURAL = "curveNatural",
   STEP = "curveStep",
 }
 
-enum KeyNames {
+export enum KeyNames {
   X = "x",
   Y = "y",
 }
@@ -23,7 +23,9 @@ interface Props {
   points: Point[];
   curve?: Curve;
   stroke?: string;
-  fill?: string;
+  strokeWidth?: number;
+  strokeLinejoin?: "round";
+  strokeLinecap?: "round";
   style?: {
     [key: string]: number | string;
   };
@@ -70,8 +72,11 @@ export const Line = (props: Props): React.ReactElement => {
   return (
     <path
       d={curve}
-      fill={props.fill ?? undefined}
+      fill={"none"}
       stroke={props.stroke ?? "#000"}
+      strokeWidth={props.strokeWidth ?? 2}
+      strokeLinejoin={props.strokeLinejoin ?? "round"}
+      strokeLinecap={props.strokeLinecap ?? "round"}
       transform={`translate(${margin?.left ?? 0},${margin?.top ?? 0})`}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
