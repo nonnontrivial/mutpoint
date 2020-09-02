@@ -1,0 +1,33 @@
+{
+  "name": "mutpoint",
+  "description": "components for visualizing mutating point data",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "scripts": {
+    "start": "tsc --watch",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "package": "npm pack"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "react",
+    "mutating",
+    "point"
+  ],
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "author": "Kevin Donahue <nonnontrivial@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/react": "^16.9.46",
+    "@types/d3": "^5.7.2",
+    "d3": "^6.1.1",
+    "typescript": "^3.9.7",
+    "uuid": "^8.3.0"
+  }
+}
