@@ -35,7 +35,7 @@ interface Props {
  * Line renders a line
  * @param {Props} props Props passed to the component
 */
-export const Line = (props: Props): React.ReactElement => {
+const Line = (props: Props): React.ReactElement => {
   const { height, width, margin } = React.useContext(SizeContext) ?? defaultSize;
   // formattedPoints is a mapping of original data points into the two-tuple
   // format used in d3 APIs
@@ -86,4 +86,8 @@ export const Line = (props: Props): React.ReactElement => {
       }}
     />
   );
+};
+
+export {
+  Line,
 };

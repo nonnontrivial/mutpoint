@@ -6,6 +6,7 @@ import { renderInOrder } from "../util";
 import { Size, SizeContext } from "../util/size";
 
 export * from "./axis";
+export * from "./grid";
 export * from "./line";
 
 interface Props {
