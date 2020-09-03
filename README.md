@@ -4,7 +4,7 @@
 
 > components for visualizing mutating point data
 
-> **Note:** Project is **unstable**
+> **Note:** Project is **unstable** and extremely **early phase**
 
 ## Purpose
 
