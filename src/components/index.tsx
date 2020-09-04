@@ -2,32 +2,29 @@
  * @fileoverview Exports all public components, defines Chart
  */
 import * as React from "react";
-// import * as d3 from "d3";
+import * as d3 from "d3";
 import { renderInOrder } from "../model";
-import { Size, SizeContext } from "../model/size";
-// import { Data, DataContext } from "../util/data";
+import { Points, PointsContext } from "../model/points";
 
 export * from "./axis";
 export * from "./grid";
 export * from "./line";
 
-enum Key {
+export enum Key {
   X = "x",
   Y = "y",
 }
 
-type Constraint = string | number | symbol;
-
-export type Point<E extends Constraint = Key> = {
-  [X in E]: any;
+export type Point = {
+  [K in Key]: any;
 };
 
-interface Props<E extends Constraint> {
-  points: Point<E>[];
+interface Props {
+  points: Point[];
   children?: React.ReactNode;
   className?: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
   margin?: {
     left?: number;
     right?: number;
@@ -43,24 +40,25 @@ interface Props<E extends Constraint> {
  * Chart renders a chart
  * @param {Props} props Props passed to the component
  */
-const Chart = <E extends Constraint>(props: Props<E>): React.ReactElement => {
+const Chart = (props: Props): React.ReactElement => {
   // orderedChildComponents is a subset of the provided children suitable for rendering
   const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {
     return renderInOrder(props.children);
   }, [props.children]);
-  // size stores svg size information across renders
-  const size = React.useMemo<Size>(() => {
+  // points is point-specific scaling functions
+  const points = React.useMemo<Points>(() => {
+    const xFn = d3.scaleLinear()
+      .domain([0, d3.max(props.points, d => d.x)]).nice()
+      .range([props.margin?.left ?? 0, props.width - (props.margin?.right ?? 0)]);
+    const yFn = d3.scaleLinear()
+      .domain([0, d3.max(props.points, d => d.y)]).nice()
+      .range([props.height - (props.margin?.bottom ?? 0), props.margin?.top ?? 0]);
     return {
-      height: props.height ?? 300,
-      width: props.width ?? 500,
-      margin: {
-        left: props.margin?.left ?? 0,
-        right: props.margin?.right ?? 0,
-        top: props.margin?.top ?? 0,
-        bottom: props.margin?.bottom ?? 0,
-      }
+      points: props.points,
+      xFn,
+      yFn,
     };
-  }, [props.height, props.width, props.margin]);
+  }, [props.points, props.width, props.height, props.margin]);
   return (
     <svg
       className={props.className}
@@ -69,9 +67,9 @@ const Chart = <E extends Constraint>(props: Props<E>): React.ReactElement => {
       style={props.style ?? {}}
       version="1.1"
     >
-      <SizeContext.Provider value={size}>
+      <PointsContext.Provider value={points}>
         {orderedChildComponents}
-      </SizeContext.Provider>
+      </PointsContext.Provider>
     </svg>
   );
 };

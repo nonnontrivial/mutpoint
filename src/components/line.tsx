@@ -3,8 +3,7 @@
  */
 import * as React from "react";
 import * as d3 from "d3";
-import { DataContext } from "../model/data";
-import { SizeContext, defaultSize } from "../model/size";
+import { PointsContext } from "../model/points";
 
 export enum Curve {
   LINEAR = "curveLinear",
@@ -28,9 +27,11 @@ interface Props {
  * Line renders a line
  * @param {Props} props Props passed to the component
 */
-const Line = (props: Props): React.ReactElement => {
-  const { points, xFn, yFn} = React.useContext(DataContext) ?? {};
-  const { margin } = React.useContext(SizeContext) ?? defaultSize;
+const Line = (props: Props): React.ReactElement | null => {
+  const { points, xFn, yFn } = React.useContext(PointsContext) ?? {};
+  if (!xFn || !yFn) {
+    return null;
+  }
   // formattedPoints is a mapping of original data points into the two-tuple
   // format used in d3 APIs
   const formattedPoints = React.useMemo<Array<[number, number]>>(() => {
@@ -59,7 +60,6 @@ const Line = (props: Props): React.ReactElement => {
       strokeWidth={props.strokeWidth ?? 2}
       strokeLinejoin={props.strokeLinejoin ?? "round"}
       strokeLinecap={props.strokeLinecap ?? "round"}
-      transform={`translate(${margin?.left ?? 0},${margin?.top ?? 0})`}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
       onClick={onClick}
