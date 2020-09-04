@@ -2,7 +2,7 @@
  * @fileoverview Defines XAxis and YAxis components
  */
 import * as React from "react";
-import { defaultSize, SizeContext } from "../util/size";
+import { defaultSize, SizeContext } from "../model/size";
 
 interface XAxisProps { }
 
