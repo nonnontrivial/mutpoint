@@ -3,24 +3,20 @@
  */
 import * as React from "react";
 import * as d3 from "d3";
+import { Point } from ".";
 import { PointsContext } from "../model/points";
 
-export enum Curve {
-  LINEAR = "curveLinear",
-  BASIS = "curveBasis",
-  NATURAL = "curveNatural",
-  STEP = "curveStep",
-}
-
 interface Props {
-  curve?: Curve;
   stroke?: string;
   strokeWidth?: number;
-  strokeLinejoin?: "round";
-  strokeLinecap?: "round";
+  strokeLinejoin?: "round" | "inherit";
+  strokeLinecap?: "round" | "inherit";
   style?: {
     [key: string]: number | string;
   };
+  onMouseOver(point: Point): void;
+  onMouseOut(point: Point): void;
+  onClick(point: Point): void;
 }
 
 /**
@@ -46,10 +42,11 @@ const Line = (props: Props): React.ReactElement | null => {
   }, [points]);
   // curve creates the final string given as an attribute to the path element
   const curve = React.useMemo<string>(() => {
-    lineFn.curve(d3[props.curve ?? Curve.LINEAR]);
+    lineFn.curve(d3.curveStep);
     return lineFn(formattedPoints) as string;
   }, [lineFn]);
-  const onMouseOver = React.useCallback((e: React.MouseEvent) => { }, []);
+  const onMouseOver = React.useCallback((e: React.MouseEvent) => {
+  }, []);
   const onMouseOut = React.useCallback((e: React.MouseEvent) => { }, []);
   const onClick = React.useCallback((e: React.MouseEvent) => { }, []);
   return (

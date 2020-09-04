@@ -3,7 +3,10 @@
  */
 import * as React from "react";
 
-interface XAxisProps { }
+interface XAxisProps {
+  tickSizeInner?: number;
+  tickSizeOuter?: number;
+}
 
 const XAxis = (props: XAxisProps): React.ReactElement => {
   return (

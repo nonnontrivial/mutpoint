@@ -19,8 +19,16 @@ export type Point = {
   [K in Key]: number;
 };
 
+export interface Diff {
+  threshold: number;
+  freezeFor: number;
+  component: React.ReactElement;
+}
+
 interface Props {
   points: Point[];
+  diffPos: Diff;
+  diffNeg: Diff;
   children?: React.ReactNode;
   className?: string;
   width: number;
