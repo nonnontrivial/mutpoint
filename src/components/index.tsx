@@ -62,8 +62,8 @@ const Chart = (props: Props): React.ReactElement => {
   return (
     <svg
       className={props.className}
-      width={`${props.width ?? 500}px`}
-      height={`${props.height ?? 500}px`}
+      width={`${props.width}px`}
+      height={`${props.height}px`}
       style={props.style ?? {}}
       version="1.1"
     >
