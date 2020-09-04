@@ -16,7 +16,7 @@ export enum Key {
 }
 
 export type Point = {
-  [K in Key]: any;
+  [K in Key]: number;
 };
 
 interface Props {
@@ -48,10 +48,10 @@ const Chart = (props: Props): React.ReactElement => {
   // points is point-specific scaling functions
   const points = React.useMemo<Points>(() => {
     const xFn = d3.scaleLinear()
-      .domain([0, d3.max(props.points, d => d.x)]).nice()
+      .domain([0, d3.max(props.points, d => d.x) as number]).nice()
       .range([props.margin?.left ?? 0, props.width - (props.margin?.right ?? 0)]);
     const yFn = d3.scaleLinear()
-      .domain([0, d3.max(props.points, d => d.y)]).nice()
+      .domain([0, d3.max(props.points, d => d.y) as number]).nice()
       .range([props.height - (props.margin?.bottom ?? 0), props.margin?.top ?? 0]);
     return {
       points: props.points,
