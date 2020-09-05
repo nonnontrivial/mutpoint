@@ -21,15 +21,18 @@ export type Point = {
 };
 
 export interface Diff {
-  threshold: number;
-  freezeFor: number;
-  component: React.ReactElement;
+  threshold?: number;
+  positive?: {
+    component: React.ReactElement;
+  };
+  negative?: {
+    component: React.ReactElement;
+  };
 }
 
 interface Props {
   points: Point[];
-  diffPos: Diff;
-  diffNeg: Diff;
+  diff?: Diff;
   children?: React.ReactNode;
   className?: string;
   width: number;
@@ -50,7 +53,29 @@ interface Props {
  * @param {Props} props Props passed to the component
  */
 const Chart = (props: Props): React.ReactElement => {
-  // orderedChildComponents is a subset of the provided children suitable for rendering
+  const [secondaryPoints, setSecondaryPoints] = React.useState<Point[]>([]);
+  const [numPointsUpdates, setNumPointsUpdates] = React.useState<number>(0);
+  // Keep track of the updates in order to render diff components correctly
+  React.useEffect(() => {
+    if (!props.diff) {
+      return;
+    }
+    // Reset the number of points updates if the threshold has been reached
+    if (numPointsUpdates >= (props.diff.threshold ?? 1)) {
+      setNumPointsUpdates(0);
+      setSecondaryPoints(props.points);
+    } else {
+      setNumPointsUpdates(numPointsUpdates + 1);
+    }
+    return () => { };
+  }, [props.points, props.diff]);
+  const orderedDiffComponents = React.useMemo<React.ReactNode>(() => {
+    if (!props.diff) {
+      return;
+    }
+    return null;
+  }, [secondaryPoints]);
+  // orderedChildComponents is the subset of the provided children suitable for rendering
   const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {
     return renderInOrder(props.children);
   }, [props.children]);
