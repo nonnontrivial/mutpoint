@@ -25,6 +25,7 @@ interface Props {
 */
 const Line = (props: Props): React.ReactElement | null => {
   const { points, xFn, yFn } = React.useContext(PointsContext) ?? {};
+  // If there is no x or y scaling function, nothing should be rendered
   if (!xFn || !yFn) {
     return null;
   }
