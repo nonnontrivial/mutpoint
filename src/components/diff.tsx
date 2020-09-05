@@ -11,8 +11,7 @@ interface Props { }
  */
 const Diff = (props: Props): React.ReactElement => {
   return (
-    <>
-    </>
+    <clipPath></clipPath>
   );
 };
 

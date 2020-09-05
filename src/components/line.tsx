@@ -14,9 +14,9 @@ interface Props {
   style?: {
     [key: string]: number | string;
   };
-  onMouseOver(point: Point): void;
-  onMouseOut(point: Point): void;
-  onClick(point: Point): void;
+  onMouseOver?: (point: Point) => void;
+  onMouseOut?: (point: Point) => void;
+  onClick?: (point: Point) => void;
 }
 
 /**

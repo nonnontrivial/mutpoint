@@ -7,6 +7,7 @@ import { renderInOrder } from "../model";
 import { Points, PointsContext } from "../model/points";
 
 export * from "./axis";
+export * from "./diff";
 export * from "./grid";
 export * from "./line";
 
@@ -53,7 +54,7 @@ const Chart = (props: Props): React.ReactElement => {
   const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {
     return renderInOrder(props.children);
   }, [props.children]);
-  // points is point-specific scaling functions
+  // points is point-specific data and scaling functions
   const points = React.useMemo<Points>(() => {
     const xFn = d3.scaleLinear()
       .domain([0, d3.max(props.points, d => d.x) as number]).nice()
