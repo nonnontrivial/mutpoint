@@ -7,7 +7,6 @@ import { renderInOrder } from "../model";
 import { Points, PointsContext } from "../model/points";
 
 export * from "./axis";
-export * from "./diff";
 export * from "./grid";
 export * from "./line";
 
@@ -20,24 +19,10 @@ export type Point = {
   [K in Key]: number;
 };
 
-export interface Diff {
-  /**
-   * Rendering details for a diff that has a larger current y than previous y
-   */
-  positive?: {
-    component: React.ReactElement;
-  };
-  /**
-   * Rendering details for a diff that has a smaller current y than previous y
-   */
-  negative?: {
-    component: React.ReactElement;
-  };
-}
+export interface Anim<P extends Point> { }
 
 interface Props {
   points: Point[];
-  diff?: Diff;
   children?: React.ReactNode;
   className?: string;
   width: number;
@@ -59,21 +44,9 @@ interface Props {
  */
 const Chart = (props: Props): React.ReactElement => {
   const [secondaryPoints, setSecondaryPoints] = React.useState<Point[]>([]);
-  const [numPointsUpdates, setNumPointsUpdates] = React.useState<number>(0);
-  // Keep track of the updates in order to render diff components correctly
   React.useEffect(() => {
-    if (!props.diff) {
-      return;
-    }
     return () => { };
-  }, [props.points, props.diff]);
-  // orderedDiffComponents is the collection of diff components suitable for rendering
-  const orderedDiffComponents = React.useMemo<React.ReactNode>(() => {
-    if (!props.diff) {
-      return;
-    }
-    return null;
-  }, [secondaryPoints]);
+  }, [props.points]);
   // orderedChildComponents is the subset of the provided children suitable for rendering
   const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {
     return renderInOrder(props.children);
@@ -103,7 +76,6 @@ const Chart = (props: Props): React.ReactElement => {
       <PointsContext.Provider value={points}>
         {orderedChildComponents}
       </PointsContext.Provider>
-      {orderedDiffComponents}
     </svg>
   );
 };
