@@ -21,10 +21,15 @@ export type Point = {
 };
 
 export interface Diff {
-  threshold?: number;
+  /**
+   * Rendering details for a diff that has a larger current y than previous y
+   */
   positive?: {
     component: React.ReactElement;
   };
+  /**
+   * Rendering details for a diff that has a smaller current y than previous y
+   */
   negative?: {
     component: React.ReactElement;
   };
@@ -60,15 +65,9 @@ const Chart = (props: Props): React.ReactElement => {
     if (!props.diff) {
       return;
     }
-    // Reset the number of points updates if the threshold has been reached
-    if (numPointsUpdates >= (props.diff.threshold ?? 1)) {
-      setNumPointsUpdates(0);
-      setSecondaryPoints(props.points);
-    } else {
-      setNumPointsUpdates(numPointsUpdates + 1);
-    }
     return () => { };
   }, [props.points, props.diff]);
+  // orderedDiffComponents is the collection of diff components suitable for rendering
   const orderedDiffComponents = React.useMemo<React.ReactNode>(() => {
     if (!props.diff) {
       return;
@@ -104,6 +103,7 @@ const Chart = (props: Props): React.ReactElement => {
       <PointsContext.Provider value={points}>
         {orderedChildComponents}
       </PointsContext.Provider>
+      {orderedDiffComponents}
     </svg>
   );
 };
