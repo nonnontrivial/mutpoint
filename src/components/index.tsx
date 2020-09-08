@@ -57,7 +57,8 @@ const Chart = (props: Props): React.ReactElement => {
 	  }
 	  // If there is a point beyond the threshold, alter the secondary points
 	  for (const point of props.points) {
-		  if (point.y > (props?.diff?.threshold ?? 0)) {
+		  const threshold = props.diff?.threshold ?? 0
+		  if (point.y > threshold || point.y < (threshold * -1)) {
 			  setSecondaryPoints(props.points); 
 			  break;
 		  }
