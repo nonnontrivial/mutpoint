@@ -19,7 +19,7 @@ export type Point = {
   [K in Key]: number;
 };
 
-export interface Anim<P extends Point> { }
+// export interface Anim<P extends Point> { }
 
 export interface Diff {
   threshold?: number;
@@ -52,8 +52,11 @@ interface Props {
 const Chart = (props: Props): React.ReactElement => {
   const [secondaryPoints, setSecondaryPoints] = React.useState<Point[]>([]);
   // Keep track of the secondary points to render
+  // TODO: implement..
   React.useEffect(() => {
-    const pointExceedingThreshold = null 
+	  if (typeof props.diff === "undefined") {
+		  return;
+	  }
 	  for (const point of props.points) {
 		  if (point.y > (props?.diff?.threshold ?? 0)) {
 			 setSecondaryPoints(props.points); 
@@ -74,6 +77,7 @@ const Chart = (props: Props): React.ReactElement => {
       .domain([0, d3.max(props.points, d => d.y) as number]).nice()
       .range([props.height - (props.margin?.bottom ?? 0), props.margin?.top ?? 0]);
     return {
+      secondaryPoints,
       points: props.points,
       xFn,
       yFn,

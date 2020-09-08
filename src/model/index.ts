@@ -8,6 +8,7 @@ import * as React from "react";
  * @param children React children
  */
 export function renderInOrder(children: React.ReactNode): React.ReactNode[] {
+  // const allowedFunctionNames = new Set([])
   const elements: React.ReactNode[] = [];
   React.Children.forEach(children, child => {
     elements.push(child);
