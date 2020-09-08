@@ -21,8 +21,15 @@ export type Point = {
 
 export interface Anim<P extends Point> { }
 
+export interface Diff {
+  threshold?: number;
+  positive: React.ReactNode;
+  negative: React.ReactNode;
+}
+
 interface Props {
   points: Point[];
+  diff?: Diff;
   children?: React.ReactNode;
   className?: string;
   width: number;
@@ -44,10 +51,17 @@ interface Props {
  */
 const Chart = (props: Props): React.ReactElement => {
   const [secondaryPoints, setSecondaryPoints] = React.useState<Point[]>([]);
+  // Keep track of the secondary points to render
   React.useEffect(() => {
+    const pointExceedingThreshold = null 
+	  for (const point of props.points) {
+		  if (point.y > (props?.diff?.threshold ?? 0)) {
+			 setSecondaryPoints(props.points); 
+		  }
+	  }
     return () => { };
   }, [props.points]);
-  // orderedChildComponents is the subset of the provided children suitable for rendering
+  // orderedChildComponents is a subset of the provided children suitable for rendering
   const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {
     return renderInOrder(props.children);
   }, [props.children]);
@@ -81,3 +95,4 @@ const Chart = (props: Props): React.ReactElement => {
 };
 
 export default Chart;
+
