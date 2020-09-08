@@ -19,8 +19,6 @@ export type Point = {
   [K in Key]: number;
 };
 
-// export interface Anim<P extends Point> { }
-
 export interface Diff {
   threshold?: number;
   positive: React.ReactNode;
@@ -57,9 +55,11 @@ const Chart = (props: Props): React.ReactElement => {
 	  if (typeof props.diff === "undefined") {
 		  return;
 	  }
+	  // If there is a point beyond the threshold, alter the secondary points
 	  for (const point of props.points) {
 		  if (point.y > (props?.diff?.threshold ?? 0)) {
-			 setSecondaryPoints(props.points); 
+			  setSecondaryPoints(props.points); 
+			  break;
 		  }
 	  }
     return () => { };
