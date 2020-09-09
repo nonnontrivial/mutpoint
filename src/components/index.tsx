@@ -76,12 +76,15 @@ const Chart = (props: Props): React.ReactElement => {
   }, [props.children]);
   // points is point-specific data and scaling functions
   const points = React.useMemo<Points>(() => {
+    const xMax = d3.max(props.points, d => d.x) as number;
     const xFn = d3.scaleLinear()
-      .domain([0, d3.max(props.points, d => d.x) as number]).nice()
-      .range([props.margin?.left ?? 0, props.width - (props.margin?.right ?? 0)]);
+	.domain([0, xMax]).nice()
+	.range([props.margin?.left ?? 0, props.width - (props.margin?.right ?? 0)]);
+    const yMin = d3.min(props.points, d => d.y) as number;
+    const yMax = d3.max(props.points, d => d.y) as number;
     const yFn = d3.scaleLinear()
-      .domain([0, d3.max(props.points, d => d.y) as number]).nice()
-      .range([props.height - (props.margin?.bottom ?? 0), props.margin?.top ?? 0]);
+	.domain([yMin, yMax]).nice()
+	.range([props.height - (props.margin?.bottom ?? 0), props.margin?.top ?? 0]);
     return {
       // secondaryPoints,
       points: props.points,
