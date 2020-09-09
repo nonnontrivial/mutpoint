@@ -7,6 +7,7 @@ import { renderInOrder } from "../model";
 import { Points, PointsContext } from "../model/points";
 
 export * from "./axis";
+export * from "./diff";
 export * from "./grid";
 export * from "./line";
 
@@ -53,12 +54,13 @@ const Chart = (props: Props): React.ReactElement => {
   // TODO: implement orderedSecondaryComponents
   React.useEffect(() => {
     if (typeof props.diff === "undefined") {
-      return
+      return;
     }
+    // Set secondary points in the case that one exceeds the threshold
     for (const point of props.points) {
       const threshold = props.diff?.threshold ?? 0;
       if (point.y > threshold || point.y < (threshold * -1)) {
-	setSecondaryPoints(props.points)
+	setSecondaryPoints(props.points);
 	break;
       }
     }
@@ -66,7 +68,7 @@ const Chart = (props: Props): React.ReactElement => {
   }, [props.points]);
   // orderedSecondaryComponents is a subset of components implied by secondaryPoints
   const orderedSecondaryComponents = React.useMemo<React.ReactNodeArray | null>(() => {
-    return null 
+    return null;
   }, [secondaryPoints]);
   // orderedChildComponents is a subset of the provided children suitable for rendering
   const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {

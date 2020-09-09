@@ -6,6 +6,11 @@ import * as d3 from "d3";
 import { Point } from ".";
 import { PointsContext } from "../model/points";
 
+export enum Curve {
+    STEP = "curveStep",
+    LINEAR = "curveLinear",
+}
+
 interface Props {
   stroke?: string;
   strokeWidth?: number;
@@ -14,6 +19,7 @@ interface Props {
   style?: {
     [key: string]: number | string;
   };
+  curve?: Curve,
   onMouseOver?: (point: Point) => void;
   onMouseOut?: (point: Point) => void;
   onClick?: (point: Point) => void;
@@ -38,12 +44,12 @@ const Line = (props: Props): React.ReactElement | null => {
   // sent to the path element
   const lineFn = React.useMemo<d3.Line<[number, number]>>(() => {
     return d3.line()
-      .x(point => xFn(point[0]))
-      .y(point => yFn(point[1]));
+	.x(point => xFn(point[0])) 
+	.y(point => yFn(point[1]));
   }, [points]);
   // curve creates the final string given as an attribute to the path element
   const curve = React.useMemo<string>(() => {
-    lineFn.curve(d3.curveStep);
+    lineFn.curve(d3[props.curve ?? Curve.LINEAR]);
     return lineFn(formattedPoints) as string;
   }, [lineFn]);
   // TODO: implement event handlers
