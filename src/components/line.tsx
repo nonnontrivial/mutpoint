@@ -46,8 +46,8 @@ const Line = (props: Props): React.ReactElement | null => {
     lineFn.curve(d3.curveStep);
     return lineFn(formattedPoints) as string;
   }, [lineFn]);
-  const onMouseOver = React.useCallback((e: React.MouseEvent) => {
-  }, []);
+  // TODO: implement event handlers
+  const onMouseOver = React.useCallback((e: React.MouseEvent) => { }, []);
   const onMouseOut = React.useCallback((e: React.MouseEvent) => { }, []);
   const onClick = React.useCallback((e: React.MouseEvent) => { }, []);
   return (

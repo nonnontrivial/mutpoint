@@ -16,7 +16,8 @@ _Coming soon._
 
 ## Example Application: [Spectrum Analyzer](https://en.wikipedia.org/wiki/Spectrum_analyzer)
 
-_Coming soon._
+```ts
+```
 
 ## Prior Art
 

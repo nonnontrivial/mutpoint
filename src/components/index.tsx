@@ -50,21 +50,24 @@ interface Props {
 const Chart = (props: Props): React.ReactElement => {
   const [secondaryPoints, setSecondaryPoints] = React.useState<Point[]>([]);
   // Keep track of the secondary points to render
-  // TODO: implement..
+  // TODO: implement orderedSecondaryComponents
   React.useEffect(() => {
-	  if (typeof props.diff === "undefined") {
-		  return;
-	  }
-	  // If there is a point beyond the threshold, alter the secondary points
-	  for (const point of props.points) {
-		  const threshold = props.diff?.threshold ?? 0
-		  if (point.y > threshold || point.y < (threshold * -1)) {
-			  setSecondaryPoints(props.points); 
-			  break;
-		  }
-	  }
+    if (typeof props.diff === "undefined") {
+      return
+    }
+    for (const point of props.points) {
+      const threshold = props.diff?.threshold ?? 0;
+      if (point.y > threshold || point.y < (threshold * -1)) {
+	setSecondaryPoints(props.points)
+	break;
+      }
+    }
     return () => { };
   }, [props.points]);
+  // orderedSecondaryComponents is a subset of components implied by secondaryPoints
+  const orderedSecondaryComponents = React.useMemo<React.ReactNodeArray | null>(() => {
+    return null 
+  }, [secondaryPoints]);
   // orderedChildComponents is a subset of the provided children suitable for rendering
   const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {
     return renderInOrder(props.children);
@@ -78,7 +81,7 @@ const Chart = (props: Props): React.ReactElement => {
       .domain([0, d3.max(props.points, d => d.y) as number]).nice()
       .range([props.height - (props.margin?.bottom ?? 0), props.margin?.top ?? 0]);
     return {
-      secondaryPoints,
+      // secondaryPoints,
       points: props.points,
       xFn,
       yFn,

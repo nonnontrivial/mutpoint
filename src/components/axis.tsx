@@ -10,9 +10,7 @@ interface XAxisProps {
 
 const XAxis = (props: XAxisProps): React.ReactElement => {
   return (
-    <g
-    >
-    </g>
+    <g></g>
   );
 };
 
