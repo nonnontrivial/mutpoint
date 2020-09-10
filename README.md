@@ -10,6 +10,16 @@
 
 `mutpoint` is designed for charting _fluctuating source data_.
 
+## Features
+
+|Component | Implemented | PR | Issue |
+|:---------|:-----------:|:--:|:-----:|
+|Chart     |✔️            |-   |-      |
+|Line      |✔️            |-   |-      |
+|Grid      |-            |-   |-      |
+|XAxis     |-            |-   |-      |
+|YAxis     |-            |-   |-      |
+
 ## Installation
 
 ```shell
