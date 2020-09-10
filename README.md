@@ -10,7 +10,7 @@
 
 `mutpoint` is designed for charting _fluctuating source data_.
 
-## Features
+## Components
 
 |Component | Implemented | PR | Issue |
 |:---------|:-----------:|:--:|:-----:|
