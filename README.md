@@ -30,7 +30,7 @@ npm install mutpoint
 
 ### Basic Rendering
 
-The following example shows how to use `Chart` and `Line` to render some points.
+The [following example](https://osc.kd-tree.vercel.app/) shows how to use `Chart` and `Line` to render some points.
 
 ```tsx
 import * as React from "react";
