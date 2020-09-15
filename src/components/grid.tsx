@@ -10,12 +10,12 @@ interface Props { }
  * @param {Props} props Props passed to the component
  */
 const Grid = (props: Props): React.ReactElement => {
-  return (
-    <>
-    </>
-  );
+    return (
+	<>
+	</>
+    );
 };
 
 export {
-  Grid,
+    Grid,
 };
