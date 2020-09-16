@@ -31,6 +31,7 @@ interface Props {
     diff?: Diff;
     children?: React.ReactNode;
     className?: string;
+    secondaryPoints?: Point[];
     width: number;
     height: number;
     margin?: {
@@ -45,18 +46,25 @@ interface Props {
 }
 
 /**
- * Chart renders a chart
+ * Chart renders a chart for mutating point data.
+ *
+ * This component can render child components who interpret the points data
+ * passed to the props.
+ *
+ * It conditionally renders secondary points in a diff component.
+ *
  * @param {Props} props Props passed to the component
+ * @returns React node
  */
 const Chart = (props: Props): React.ReactElement => {
-    const [secondaryPoints, setSecondaryPoints] = React.useState<Point[]>([]);
-    // Keep track of the secondary points to render
     // TODO: implement orderedSecondaryComponents
+    const [secondaryPoints, setSecondaryPoints] = React.useState<Point[]>(
+	props.secondaryPoints ?? []
+    );
     React.useEffect(() => {
 	if (typeof props.diff === "undefined") {
 	    return;
 	}
-	// Set secondary points in the case that one exceeds the threshold
 	for (const point of props.points) {
 	    const threshold = props.diff?.threshold ?? 0;
 	    if (point.y > threshold || point.y < (threshold * -1)) {
@@ -66,21 +74,25 @@ const Chart = (props: Props): React.ReactElement => {
 	}
 	return () => { };
     }, [props.points]);
-    // orderedChildComponents are the provided children suitable for rendering
     const orderedChildComponents = React.useMemo<React.ReactNodeArray>(() => {
 	return renderInOrder(props.children);
     }, [props.children]);
-    // points is point-specific data and scaling functions
     const points = React.useMemo<Points>(() => {
 	const xMax = d3.max(props.points, d => d.x) as number;
 	const xFn = d3.scaleLinear()
 	    .domain([0, xMax]).nice()
-	    .range([props.margin?.left ?? 0, props.width - (props.margin?.right ?? 0)]);
+	    .range([
+		props.margin?.left ?? 0, 
+		props.width - (props.margin?.right ?? 0)
+	    ]);
 	const yMin = d3.min(props.points, d => d.y) as number;
 	const yMax = d3.max(props.points, d => d.y) as number;
 	const yFn = d3.scaleLinear()
 	    .domain([yMin, yMax]).nice()
-	    .range([props.height - (props.margin?.bottom ?? 0), props.margin?.top ?? 0]);
+	    .range([
+		props.height - (props.margin?.bottom ?? 0),
+		props.margin?.top ?? 0]
+	    );
 	return {
 	    // secondaryPoints,
 	    points: props.points,

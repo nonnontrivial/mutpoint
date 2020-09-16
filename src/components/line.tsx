@@ -26,8 +26,10 @@ interface Props {
 }
 
 /**
- * Line renders a line
+ * Line renders a line given the points in the surrounding context.
+ *
  * @param {Props} props Props passed to the component
+ * @returns React node
  */
 const Line = (props: Props): React.ReactElement | null => {
     const { points, xFn, yFn } = React.useContext(PointsContext) ?? {};
@@ -35,19 +37,18 @@ const Line = (props: Props): React.ReactElement | null => {
     if (!xFn || !yFn) {
 	return null;
     }
-    // formattedPoints is a mapping of original data points into the two-tuple
-    // format used in d3 APIs
+    // Mapping of original data points into the two-tuple format used in d3 APIs
     const formattedPoints = React.useMemo<Array<[number, number]>>(() => {
 	return points?.map(point => [point.x, point.y]) as [];
     }, [points]);
-    // lineFn is a function that maps the formatted points to the actual string
-    // sent to the path element
+    // Function that maps the formatted points to the actual string sent to the
+    // path element
     const lineFn = React.useMemo<d3.Line<[number, number]>>(() => {
 	return d3.line()
 	    .x(point => xFn(point[0])) 
 	    .y(point => yFn(point[1]));
     }, [points]);
-    // curve creates the final string given as an attribute to the path element
+    // Creates the final string given as an attribute to the path element
     const curve = React.useMemo<string>(() => {
 	lineFn.curve(d3[props.curve ?? Curve.LINEAR]);
 	return lineFn(formattedPoints) as string;
@@ -76,4 +77,4 @@ const Line = (props: Props): React.ReactElement | null => {
 
 export {
     Line,
-};
+}
