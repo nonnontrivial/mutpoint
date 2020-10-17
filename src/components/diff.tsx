@@ -10,13 +10,7 @@ interface Props {}
  * @param {Props} props Props passed to the component
  */
 const Diff = (props: Props) => {
-    return (
-	<>
-	</>
-    );
-}
+  return <></>;
+};
 
-export {
-    Diff,
-}
-
+export { Diff };

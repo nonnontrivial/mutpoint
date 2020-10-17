@@ -8,9 +8,9 @@ import * as React from "react";
  * @param children React children
  */
 export function renderInOrder(children: React.ReactNode): React.ReactNode[] {
-    const elements: React.ReactNode[] = [];
-    React.Children.forEach(children, child => {
-	elements.push(child);
-    });
-    return elements;
-};
+  const elements: React.ReactNode[] = [];
+  React.Children.forEach(children, (child) => {
+    elements.push(child);
+  });
+  return elements;
+}
